@@ -21,6 +21,7 @@ const Game = () => {
   const sendSubmission = (newLine) => {
     // update RecentSubmission
     const updateRecentLine = []
+    const updateFinalPoem = [...finalPoem]
     for (const element of newLine) {
       if (typeof element === 'object') {
         updateRecentLine.push(element[element.key])
@@ -28,7 +29,12 @@ const Game = () => {
           updateRecentLine.push(element)
         }
     };
+
     setRecentLine(updateRecentLine.join(' '));
+
+    // update finalPoem
+    updateFinalPoem.push(updateRecentLine.join(' '))
+    setFinalPoem(updateFinalPoem)
 
     // update current player
     setCurrentPlayer(currentplayer+1);
