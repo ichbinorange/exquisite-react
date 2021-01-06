@@ -20,15 +20,15 @@ const Game = () => {
 
   const sendSubmission = (newLine) => {
     // update RecentSubmission
-    const updateRecentLine = [...recentLine]
-    for (const element in newLine) {
-      if (element.key) {
-        updateRecentLine.push(element.key)
+    const updateRecentLine = []
+    for (const element of newLine) {
+      if (typeof element === 'object') {
+        updateRecentLine.push(element[element.key])
         } else {
           updateRecentLine.push(element)
         }
     };
-    setRecentLine(updateRecentLine);
+    setRecentLine(updateRecentLine.join(' '));
 
     // update current player
     setCurrentPlayer(currentplayer+1);
@@ -56,7 +56,7 @@ const Game = () => {
 
       <PlayerSubmissionForm index={currentplayer}
                             sendSubmission={sendSubmission} 
-                            fields={FIELDS} // hardcode data
+                            fields={FIELDS} 
       />
 
       <FinalPoem isSubmitted={finalSubmitted} //true/false
@@ -73,27 +73,33 @@ const FIELDS = [
   'The',
   {
     key: 'adj1',
+    adj1: '',
     placeholder: 'adjective',
   },
   {
     key: 'noun1',
+    noun1: '',
     placeholder: 'noun',
   },
   {
     key: 'adv',
+    adv: '',
     placeholder: 'adverb',
   },
   {
     key: 'verb',
+    verb: '',
     placeholder: 'verb',
   },
   'the',
   {
     key: 'adj2',
+    adj2: '',
     placeholder: 'adjective',
   },
   {
     key: 'noun2',
+    noun2: '',
     placeholder: 'noun',
   },
   '.',
