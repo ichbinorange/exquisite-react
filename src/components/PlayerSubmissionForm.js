@@ -8,7 +8,7 @@ const PlayerSubmissionForm = (props) => {
   const [formFields, setFormField] = useState(props.fields) 
 
   // Event handlers
-  const onInputChange = (event, i) => {
+  const onInputChange = (event) => {
     const newFormFields = [...formFields]
     for (const field of newFormFields) {
       if (typeof field === 'object' && event.target.name === field.key ) {
@@ -25,7 +25,7 @@ const PlayerSubmissionForm = (props) => {
     let emptyForm = []
     for (const field of props.fields) {
         if (typeof field === 'object') {
-          field[field.key] = ''
+          field[field.key] = '';
           emptyForm.push({
             ...field, 
           })
@@ -33,21 +33,22 @@ const PlayerSubmissionForm = (props) => {
           emptyForm.push(field);
         }
     }
+   
     setFormField(emptyForm)
   }
 
   const inputContent = props.fields.map( (field, i) => {
     if (field.key) {
-      return <input
-        key={i}
-        name={field.key}
-        placeholder={field.placeholder}
-        value={props.fields.key}
-        onChange={onInputChange}
-        type="text"
-      />;
-    } else {
-      return field;
+      return (
+        <input
+          key={field.key}
+          name={field.key}
+          placeholder={field.placeholder}
+          value={formFields[i][field.key]}
+          onChange={onInputChange}
+          type="text"
+        />
+      );
     }
   })
 
@@ -67,7 +68,6 @@ const PlayerSubmissionForm = (props) => {
           <input type="submit" 
                  value="Submit Line" 
                  className="PlayerSubmissionForm__submit-btn" 
-                 onClick={onFormSubmit}
           />
         </div>
       </form>
