@@ -53,28 +53,35 @@ const PlayerSubmissionForm = (props) => {
       return field
     }
   })
-
-  return (
-    <div className="PlayerSubmissionForm">
-      <h3>Player Submission Form for Player #{ props.index }</h3>
-
-      <form className="PlayerSubmissionForm__form" onSubmit={onFormSubmit} >
-
-        <div className="PlayerSubmissionForm__poem-inputs">
-          {
-            inputContent
-          }
-        </div>
-
-        <div className="PlayerSubmissionForm__submit">
-          <input type="submit" 
-                 value="Submit Line" 
-                 className="PlayerSubmissionForm__submit-btn" 
-          />
-        </div>
-      </form>
-    </div>
-  );
+  
+  if (props.isSubmitted) {
+    return (
+      <>
+      </>
+    );
+  } else {
+    return (
+      <div className="PlayerSubmissionForm">
+        <h3>Player Submission Form for Player #{ props.index }</h3>
+  
+        <form className="PlayerSubmissionForm__form" onSubmit={onFormSubmit} >
+  
+          <div className="PlayerSubmissionForm__poem-inputs">
+            {
+              inputContent
+            }
+          </div>
+  
+          <div className="PlayerSubmissionForm__submit">
+            <input type="submit" 
+                   value="Submit Line" 
+                   className="PlayerSubmissionForm__submit-btn" 
+            />
+          </div>
+        </form>
+      </div>
+    );
+  }
 }
 
 PlayerSubmissionForm.propTypes = {
