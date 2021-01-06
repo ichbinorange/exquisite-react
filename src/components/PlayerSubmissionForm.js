@@ -4,39 +4,45 @@ import PropTypes from 'prop-types';
 import './PlayerSubmissionForm.css';
 
 const PlayerSubmissionForm = (props) => {
-  const [formFields, setFormField] = useState(props.fields)
+  // props.fields is an array
+  const [formFields, setFormField] = useState(props.fields) 
 
   // Event handlers
-  const onInputChange = (event) => {
-    const newFormFields = {
-      ...formFields
-    }
-    newFormFields[event.target.key] = event.target.value
-    setFormField(newFormFields)
+  const onInputChange = (event, i) => {
+    const newFormFields = [...formFields]
+    for (const field of newFormFields) {
+      if (typeof field === 'object' && event.target.name === field.key ) {
+        field[field.key] = event.target.value
+      } 
+      setFormField(newFormFields)
+    } 
   }
 
   const onFormSubmit = (event) => {
     event.preventDefault();
     props.sendSubmission(formFields)
     
-    const emptyForm = props.fields.map((field) => {
-        if (field.key) {
-          return {
-            key: field.key,
-            placeholder: field.placeholder,
-          }
+    let emptyForm = []
+    for (const field of props.fields) {
+        if (typeof field === 'object') {
+          field[field.key] = ''
+          emptyForm.push({
+            ...field, 
+          })
         } else {
-          return field;
+          emptyForm.push(field);
         }
-    })
+    }
     setFormField(emptyForm)
   }
 
-  const inputContent = props.fields.map( (field) => {
+  const inputContent = props.fields.map( (field, i) => {
     if (field.key) {
       return <input
-        key={field.key}
+        key={i}
+        name={field.key}
         placeholder={field.placeholder}
+        value={props.fields.key}
         onChange={onInputChange}
         type="text"
       />;
@@ -53,7 +59,6 @@ const PlayerSubmissionForm = (props) => {
 
         <div className="PlayerSubmissionForm__poem-inputs">
           {
-            // Put your form inputs here... We've put in one below as an example
             inputContent
           }
         </div>
