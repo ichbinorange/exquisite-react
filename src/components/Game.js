@@ -21,7 +21,6 @@ const Game = () => {
   const sendSubmission = (newLine) => {
     // update RecentSubmission
     const updateRecentLine = []
-    const updateFinalPoem = [...finalPoem]
     for (const element of newLine) {
       if (typeof element === 'object') {
         updateRecentLine.push(element[element.key])
@@ -33,6 +32,7 @@ const Game = () => {
     setRecentLine(updateRecentLine.join(' '));
 
     // update finalPoem
+    const updateFinalPoem = [...finalPoem]
     updateFinalPoem.push(updateRecentLine.join(' '))
     setFinalPoem(updateFinalPoem)
 
@@ -41,9 +41,8 @@ const Game = () => {
   }
 
   const showFinalPoem = () => {
-    // update FinalPoem
-    const updateFinalPoem = finalPoem.push(recentLine)
-    setFinalPoem(updateFinalPoem)
+    // update the status of finalSubmitted
+    setFinalSubmitted(!finalSubmitted)
   }
 
   return (
@@ -58,11 +57,14 @@ const Game = () => {
         { exampleFormat }
       </p>
 
-      <RecentSubmission submission={recentLine}/>
+      <RecentSubmission submission={recentLine}
+                        isSubmitted={finalSubmitted}
+      />
 
       <PlayerSubmissionForm index={currentplayer}
                             sendSubmission={sendSubmission} 
                             fields={FIELDS} 
+                            isSubmitted={finalSubmitted}
       />
 
       <FinalPoem isSubmitted={finalSubmitted} //true/false
