@@ -24,6 +24,7 @@ const RecentSubmission = (props) => {
 }
 
 RecentSubmission.propTypes = {
+  isSubmitted: PropTypes.bool.isRequired,
   submission: PropTypes.string.isRequired,
 };
 
