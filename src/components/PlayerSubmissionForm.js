@@ -36,6 +36,15 @@ const PlayerSubmissionForm = (props) => {
    
     setFormField(emptyForm)
   }
+  
+  // validate blank input
+  const inputValid = (index) => {
+    if (formFields[index][formFields[index].key].length > 0) {
+      return true
+    } else {
+      return false
+    }
+  }
 
   const inputContent = props.fields.map( (field, i) => {
     if (field.key) {
@@ -47,12 +56,14 @@ const PlayerSubmissionForm = (props) => {
           value={formFields[i][field.key]}
           onChange={onInputChange}
           type="text"
+          className={inputValid(i) ? 'PlayerSubmissionForm__input' : 'PlayerSubmissionFormt__input--invalid'} 
         />
       );
     } else {
       return field
     }
   })
+
   
   if (props.isSubmitted) {
     return (
@@ -85,6 +96,7 @@ const PlayerSubmissionForm = (props) => {
 }
 
 PlayerSubmissionForm.propTypes = {
+  isSubmitted: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired,
   sendSubmission: PropTypes.func.isRequired,
   fields: PropTypes.arrayOf(PropTypes.oneOfType([
