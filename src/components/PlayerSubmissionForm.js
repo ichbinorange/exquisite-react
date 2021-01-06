@@ -49,6 +49,8 @@ const PlayerSubmissionForm = (props) => {
           type="text"
         />
       );
+    } else {
+      return field
     }
   })
 
