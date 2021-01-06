@@ -5,6 +5,11 @@ import FinalPoem from './FinalPoem';
 import RecentSubmission from './RecentSubmission';
 
 const Game = () => {
+  const [recentLine, setRecentLine] = useState('')
+  const [finalPoem, setFinalPoem] = useState([])
+  const [finalSubmitted, setFinalSubmitted] = useState(false)
+  const [currentplayer, setCurrentPlayer] = useState(1)
+
   const exampleFormat = FIELDS.map((field) => {
     if (field.key) {
       return field.placeholder;
@@ -12,6 +17,28 @@ const Game = () => {
       return field;
     }
   }).join(' ');
+
+  const sendSubmission = (newLine) => {
+    // update RecentSubmission
+    const updateRecentLine = [...recentLine]
+    for (const element in newLine) {
+      if (element.key) {
+        updateRecentLine.push(element.key)
+        } else {
+          updateRecentLine.push(element)
+        }
+    };
+    setRecentLine(updateRecentLine);
+
+    // update current player
+    setCurrentPlayer(currentplayer+1);
+  }
+
+  const showFinalPoem = () => {
+    // update FinalPoem
+    const updateFinalPoem = finalPoem.push(recentLine)
+    setFinalPoem(updateFinalPoem)
+  }
 
   return (
     <div className="Game">
@@ -25,11 +52,17 @@ const Game = () => {
         { exampleFormat }
       </p>
 
-      <RecentSubmission />
+      <RecentSubmission submission={recentLine}/>
 
-      <PlayerSubmissionForm />
+      <PlayerSubmissionForm index={currentplayer}
+                            sendSubmission={sendSubmission} 
+                            fields={FIELDS} // hardcode data
+      />
 
-      <FinalPoem />
+      <FinalPoem isSubmitted={finalSubmitted} //true/false
+                 submissions={finalPoem} // Array
+                 revealPoem={showFinalPoem} // Function
+      />
 
     </div>
   );
